@@ -2,6 +2,9 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
+  reporter: process.env.CI
+    ? [['html'], ['github']]
+    : [['html', { open: 'never' }], ['list']],
   use: {
     baseURL: 'https://www.saucedemo.com',
     testIdAttribute: 'data-test',
