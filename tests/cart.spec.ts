@@ -1,5 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { InventoryPage } from '../pages/InventoryPage';
+import { CartPage } from '../pages/CartPage';
 
 test('カートに入れた商品がカート画面にある', async ({ page }) => {
   //以下、学習用コメント。 現在は auth.setup.ts実行時の状態を保存。
@@ -8,6 +9,8 @@ test('カートに入れた商品がカート画面にある', async ({ page }) 
   //await loginPage.login();
 
   const inventoryPage = new InventoryPage(page);
+  const cartPage = new CartPage(page);
+
   await inventoryPage.goto();
   await inventoryPage.expectLoaded();
 
@@ -18,6 +21,6 @@ test('カートに入れた商品がカート画面にある', async ({ page }) 
   await inventoryPage.expectCartCount(1);
   await inventoryPage.openCart();
 
-  await expect(page.getByTestId('title')).toHaveText('Your Cart');
-  await expect(page.getByTestId('inventory-item-name')).toHaveText('Sauce Labs Backpack');
+  await cartPage.expectLoaded();
+  await cartPage.expectItems(['Sauce Labs Backpack'])
 });
