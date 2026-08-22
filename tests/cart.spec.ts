@@ -8,7 +8,7 @@ test('カートに入れた商品がカート画面にある', async ({ page }) 
   //await loginPage.login();
 
   const inventoryPage = new InventoryPage(page);
-   inventoryPage.goto();
+  await inventoryPage.goto();
   await inventoryPage.expectLoaded();
 
   //下記のコメントのように複数個所に該当する場合はエラー
