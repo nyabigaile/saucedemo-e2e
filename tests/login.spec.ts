@@ -12,7 +12,7 @@ test.describe('ログイン', () => {
     await expect(page).toHaveURL(/inventory/);
     await expect(page.getByTestId('title')).toHaveText('Products');
   });
-  test('ログイン失敗', async ({ page }) => {
+  test('ロックされたユーザーはログインできない', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
     await loginPage.login('locked_out_user', 'secret_sauce');
