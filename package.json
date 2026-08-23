@@ -10,8 +10,7 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "ci": "npm run lint && npm run typecheck && npm test"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
