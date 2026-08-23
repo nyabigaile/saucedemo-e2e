@@ -15,6 +15,7 @@ export default defineConfig({
       name: 'chromium',
       use: { storageState: '.auth/user.json' },
       dependencies: ['setup'],
+      grepInvert: process.env.RUN_SLOW ? undefined : /@slow/,
     },
   ],
 });
