@@ -46,6 +46,7 @@ npm run test:slow     # 実行に時間のかかるテストを実行する
 | login.spec.ts | 正常系ログイン / ロックされたユーザーのエラー表示 |
 | logout.spec.ts | ログアウト / ログアウト後、ブラウザ操作で戻った際のアクセス制限 |
 | resilience.spec.ts | テストの遅延耐性を検証 |
+| visual.spec.ts | 商品詳細ページのスクリーンショット比較 |
 
 ## 設計判断
 
@@ -93,6 +94,25 @@ flaky（結果が不安定なテスト）が無いことを次の方法で確認
 
 ---
 
+## ビジュアルリグレッション
+
+`tests/visual.spec.ts` で、Sauce Labs Backpack の商品詳細ページをスクリーンショット比較している。  
+OSが異なれば、基準となる画像も異なるので個別に用意する。  
+今回、開発はWindows、CIはLinuxなので両方をコミットしている。
+
+### Linux 用の基準画像を生成する
+
+Windows / PowerShell での実行例
+```bash
+docker run --rm -v ${PWD}:/work -w /work mcr.microsoft.com/playwright:v1.62.1-noble npx playwright test --update-snapshots
+```
+
+上記コマンドで基準値となるスクリーンショットを取得できる。
+- タグのバージョンは手元の Playwright と揃える（`npx playwright --version` で確認）。
+  バージョンを揃えない場合、生成した画像が CI と一致しない可能性がある。
+- 生成後は `git status` で、増減したファイルが意図通りか確認する。
+
+---
 ## 既知の挙動
 
 ### /inventory.html へのリクエストが 404 を返す
@@ -105,5 +125,4 @@ flaky（結果が不安定なテスト）が無いことを次の方法で確認
 ## 今後の課題
 - 複数ブラウザでのテスト実行
 - テストのシャード分割
-- ビジュアルリグレッションテスト(スクリーンショットの比較)
 - 自作アプリでの検証
